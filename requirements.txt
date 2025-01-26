@@ -5,3 +5,6 @@ requests
 pyarrow
 db-dtypes
 seaborn
+beautifulsoup4
+selenium
+firefox-geckodriver-autoinstaller
