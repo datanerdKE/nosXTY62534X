@@ -1,0 +1,44 @@
+name: Naivas Online Shopping
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'  # Runs every 30 minutes
+
+jobs:
+  get_and_upload_naivas_data:
+    runs-on: ubuntu-latest
+
+    # Step 1: Checkout Repository
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3  # Updated to v3
+
+    # Step 2: Set up Python
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    # Step 3: Install Python Dependencies
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+
+    # Step 4: Install Firefox and geckodriver for Selenium
+    - name: Install Firefox and geckodriver
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y firefox
+        wget https://github.com/mozilla/geckodriver/releases/latest/download/geckodriver-v0.35.0-linux64.tar.gz  # Using a newer version
+        tar -xvzf geckodriver-v0.35.0-linux64.tar.gz
+        sudo mv geckodriver /usr/local/bin/
+        rm geckodriver-v0.35.0-linux64.tar.gz  # Cleanup downloaded tar.gz file
+
+    # Step 5: Set up Google Cloud Credentials
+    - name: Set up Google Cloud credentials
+      uses: 'google-github-actions/auth@v2'
+      with:
+        credentials_json: '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' # Replace with the name of your GitHub Actions secret
+
+    - name: Run your notebook
+      run: |
+        jupyter nbconvert --to notebook --execute --inplace naivas.ipynb
