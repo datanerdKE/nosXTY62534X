@@ -7,4 +7,4 @@ db-dtypes
 seaborn
 beautifulsoup4
 selenium
-firefox-geckodriver-autoinstaller
+geckodriver-autoinstaller
