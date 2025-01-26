@@ -8,3 +8,4 @@ seaborn
 beautifulsoup4
 selenium
 geckodriver-autoinstaller
+jupyter
